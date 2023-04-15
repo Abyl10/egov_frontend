@@ -11,6 +11,7 @@ html {
   font-size: 62.5%; // 1rem = 10px
   overflow-x: hidden;
   font-family: var(--ff-primary);
+  height: 100vh;
 
   @media screen and (max-width: 1000px) {
     font-size: 50%;

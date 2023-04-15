@@ -1,7 +1,6 @@
-import { DeliveryInfo, Main, Payment } from '@/pages';
-import DelivererOrders from '@/pages/DelivererOrders';
-import DelivererTabs from '@/pages/DelivererTabs';
 import React from 'react';
+import DelivererTabs from '@/pages/DelivererTabs';
+import { DeliveryInfo, Login, Main, Payment } from '@/pages';
 
 export enum Role {
   CLIENT = 'CLIENT',
@@ -42,5 +41,11 @@ export const ROUTES: IRoute[] = [
     path: '/orders',
     component: <DelivererTabs index={0} value={0} />,
     roles: [Role.CLIENT, Role.ADMIN],
+  },
+  {
+    name: 'Login',
+    path: '/login',
+    component: <Login />,
+    roles: [Role.COURIER, Role.TSON, Role.ADMIN],
   },
 ];

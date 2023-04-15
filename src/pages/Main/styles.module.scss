@@ -29,6 +29,24 @@
     line-height: 3rem;
     margin-bottom: 6rem;
   }
+
+  &__error {
+    text-align: center;
+    color: var(--color-red);
+    font-weight: 400;
+    font-size: 2rem;
+    line-height: 3rem;
+    margin-bottom: 6rem;
+  }
+
+  &__loading {
+    text-align: center;
+    color: var(--color-grey-1);
+    font-weight: 400;
+    font-size: 2rem;
+    line-height: 3rem;
+    margin-bottom: 6rem;
+  }
 }
 
 .u-margin-bottom-sm {

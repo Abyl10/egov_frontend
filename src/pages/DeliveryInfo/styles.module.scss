@@ -1,9 +1,10 @@
 .info {
+  padding: 5rem 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  //   height: 100%;
 
   &__wrapper {
     display: flex;
@@ -55,9 +56,70 @@
       gap: 3rem;
       margin-bottom: 2.4rem;
     }
+
+    &__delivery-title {
+      font-size: 2rem;
+      line-height: 2.4rem;
+      text-align: center;
+      margin-bottom: 2.4rem;
+    }
   }
 }
 
 .u-margin-bottom-md {
   margin-bottom: 2.4rem;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2.4rem;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--color-white);
+  height: 22.4rem;
+  width: 48rem;
+  color: var(--color-dark-blue-2);
+  position: relative;
+
+  &__wrapper {
+    padding: 2rem;
+  }
+
+  &__header {
+    font-weight: 700;
+    font-size: 2.2rem;
+    line-height: 3.2rem;
+  }
+
+  &__top {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  &__text {
+    font-weight: 400;
+    font-size: 1.4rem;
+    line-height: 2.4rem;
+    margin-bottom: 2rem;
+  }
+
+  &__x {
+    font-size: 2.5rem;
+  }
+
+  &__button {
+    width: 4.8rem;
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+  }
 }

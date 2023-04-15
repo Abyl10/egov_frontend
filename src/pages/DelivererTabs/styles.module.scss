@@ -1,0 +1,26 @@
+.main {
+  &__upper {
+    padding: 6rem 4rem 0 4rem;
+  }
+}
+
+.main-title {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 23px;
+  line-height: 44px;
+
+  /* h1 */
+
+  color: #101828;
+}
+
+.description {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+
+  color: #64748b;
+  margin-bottom: 3rem;
+}

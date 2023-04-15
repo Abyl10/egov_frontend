@@ -51,6 +51,7 @@ const Input: React.FC<IProps> = ({
           value={value}
           disabled={disabled}
           placeholder={placeholder}
+          autoComplete={'off'}
         />
       </div>
       {type === 'password' && (

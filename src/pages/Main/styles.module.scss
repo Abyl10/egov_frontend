@@ -1,0 +1,40 @@
+.main {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--ff-primary);
+
+  &__wrapper {
+    width: 100%;
+    max-width: 50rem;
+    height: 100%;
+    max-height: 40rem;
+  }
+
+  &__delivery {
+    text-align: center;
+    color: var(--color-green-primary);
+    font-weight: 600;
+    font-size: 2rem;
+    line-height: 2.4rem;
+    margin-bottom: 2rem;
+  }
+
+  &__info {
+    text-align: center;
+    color: var(--color-grey-1);
+    font-weight: 400;
+    font-size: 2rem;
+    line-height: 3rem;
+    margin-bottom: 6rem;
+  }
+}
+
+.u-margin-bottom-sm {
+  margin-bottom: 2rem;
+}
+
+.u-margin-bottom-md {
+  margin-bottom: 3rem;
+}

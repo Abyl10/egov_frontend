@@ -1,0 +1,63 @@
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  &__up {
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 6rem;
+
+    &__title {
+      font-size: 2rem;
+      line-height: 2.4rem;
+      color: var(--color-green-primary);
+      margin-bottom: 1.2rem;
+    }
+
+    &__delivery-no {
+      font-size: 3.6rem;
+      line-height: 4.4rem;
+      margin-bottom: 2rem;
+    }
+
+    &__additional {
+      color: var(--color-grey-1);
+      font-weight: 400;
+      font-size: 2rem;
+      max-width: 75rem;
+    }
+  }
+
+  &__form {
+    width: 50rem;
+    font-weight: 600;
+    &__title {
+      text-align: center;
+      color: var(--color-dark-blue-1);
+      font-size: 2rem;
+      line-height: 4.4rem;
+      margin-bottom: 2.4rem;
+    }
+
+    &__fio {
+      display: flex;
+      flex-direction: row;
+      gap: 3rem;
+      margin-bottom: 2.4rem;
+    }
+  }
+}
+
+.u-margin-bottom-md {
+  margin-bottom: 2.4rem;
+}

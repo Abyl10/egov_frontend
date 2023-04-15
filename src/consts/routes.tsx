@@ -1,4 +1,4 @@
-import { DeliveryInfo, Main } from '@/pages';
+import { DeliveryInfo, Main, Payment } from '@/pages';
 import React from 'react';
 
 export enum Role {
@@ -26,6 +26,12 @@ export const ROUTES: IRoute[] = [
     name: 'DeliveryInfo',
     path: '/delivery-info/:id',
     component: <DeliveryInfo />,
+    roles: [Role.CLIENT, Role.ADMIN],
+  },
+  {
+    name: 'Payment',
+    path: '/payment',
+    component: <Payment />,
     roles: [Role.CLIENT, Role.ADMIN],
   },
 ];

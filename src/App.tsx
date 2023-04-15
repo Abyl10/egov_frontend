@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import { ROUTES } from './consts/routes';
 import { DeliveryInfo } from './pages';
 import classes from './styles.module.scss';
-import Main from '@/pages/Main';
+import Payment from './pages/Payment';
 
 function App() {
   const user = {

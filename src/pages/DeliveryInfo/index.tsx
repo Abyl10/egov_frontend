@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 
 import classes from './styles.module.scss';
 import { Button, Checkbox, Input } from '@/components';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Modal } from '@mui/material';
 
 const DeliveryInfo: React.FC = () => {
   const params = useLocation();
+  const navigate = useNavigate();
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [checked, setChecked] = useState(false);
   const [checked1, setChecked1] = useState(false);
@@ -27,6 +28,11 @@ const DeliveryInfo: React.FC = () => {
 
   const handleButtonClick = () => {
     setOpenModal(true);
+  };
+
+  const handleModalButtonClick = () => {
+    setOpenModal(false);
+    navigate('/payment');
   };
 
   return (
@@ -150,12 +156,7 @@ const DeliveryInfo: React.FC = () => {
               нотариальная доверенность на получение документов в оригинале!
             </p>
             <div className={classes['modal__button']}>
-              <Button
-                onClick={() => {
-                  setOpenModal(false);
-                }}
-                text={'OK'}
-              />
+              <Button onClick={handleModalButtonClick} text={'OK'} />
             </div>
           </div>
         </div>

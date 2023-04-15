@@ -5,34 +5,123 @@ import { Button, Checkbox, Input } from '@/components';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Modal } from '@mui/material';
+import { getPersonInfoByIIN, getPhoneNumber, saveOrder } from '@/requests/person';
+import { IOrderData } from '@/ts/types';
+import { getToken } from '@/requests/generateToken';
 
 const DeliveryInfo: React.FC = () => {
   const params = useLocation();
   const navigate = useNavigate();
+  const [personInfo, setPersonInfo] = useState<any>({});
+  const [phoneNumber, setPhoneNumber] = useState<string>('');
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [checked, setChecked] = useState(false);
   const [checked1, setChecked1] = useState(false);
+
+  const [orderData, setOrderData] = useState<IOrderData>({
+    orderNumber: '',
+    serviceName: '',
+    department: '',
+    recipientInfo: {
+      iin: '',
+      firstName: '',
+      lastName: '',
+      phoneNumber: '',
+      deliveryAddress: {
+        region: '',
+        city: '',
+        street: '',
+        houseNumber: '',
+        apartmentNumber: '',
+        entranceNumber: '',
+        floorNumber: '',
+        buildingNumber: '',
+        residentialComplexName: '',
+        additionalInformation: '',
+      },
+    },
+  });
 
   const getDeliveryId = () => {
     const deliveryId = params.pathname.split('/')[2];
     return deliveryId;
   };
 
-  // useEffect(() => {
-  //   console.log(getDeliveryId());
-  //   const iin = localStorage.getItem('iin');
-  //   getPersonInfo(iin || '').then((res) => {
-  //     console.log(res);
-  //   });
-  // }, []);
+  useEffect(() => {
+    const token = getToken();
+    const IIN = localStorage.getItem('iin');
+    getPersonInfoByIIN(IIN || '')
+      .then((res) => {
+        setPersonInfo(res);
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    getPhoneNumber(IIN || '').then((res) => {
+      console.log(res);
+      if (res.isExists) {
+        setPhoneNumber(res.phone);
+      } else {
+        setPhoneNumber('');
+      }
+    });
+  }, []);
 
   const handleButtonClick = () => {
     setOpenModal(true);
+    const deliveryInfo = JSON.parse(localStorage.getItem('deliveryInfo') || '{}');
+    console.log(deliveryInfo);
+    const data = {
+      orderNumber: getDeliveryId(),
+      serviceName: 'Выдача справки о наличии либо отсутствии судимости',
+      department:
+        'Отдел №1 города Петропавловск по обслуживанию населения филиала некоммерческого акционерного общества «Государственная корпорация «Правительство для граждан» по Северо-Казахстанской области',
+      recipientInfo: {
+        iin: localStorage.getItem('iin') || '',
+        firstName: personInfo.firstName,
+        lastName: personInfo.lastName,
+        phoneNumber: phoneNumber,
+        deliveryAddress: {
+          region: orderData.recipientInfo.deliveryAddress.region,
+          city: orderData.recipientInfo.deliveryAddress.city,
+          street: orderData.recipientInfo.deliveryAddress.street,
+          houseNumber: orderData.recipientInfo.deliveryAddress.houseNumber,
+          apartmentNumber: orderData.recipientInfo.deliveryAddress.apartmentNumber,
+          entranceNumber: orderData.recipientInfo.deliveryAddress.entranceNumber,
+          floorNumber: orderData.recipientInfo.deliveryAddress.floorNumber,
+          buildingNumber: orderData.recipientInfo.deliveryAddress.buildingNumber,
+          residentialComplexName: orderData.recipientInfo.deliveryAddress.residentialComplexName,
+          additionalInformation: orderData.recipientInfo.deliveryAddress.additionalInformation,
+        },
+      },
+    };
+    saveOrder(data).then((res) => {
+      console.log(res);
+    });
   };
 
   const handleModalButtonClick = () => {
     setOpenModal(false);
     navigate('/payment');
+  };
+
+  const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPhoneNumber(e.target.value);
+  };
+
+  const handleOrderDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setOrderData((prev) => ({
+      ...prev,
+      recipientInfo: {
+        ...prev.recipientInfo,
+        deliveryAddress: {
+          ...prev.recipientInfo.deliveryAddress,
+          [name]: value,
+        },
+      },
+    }));
   };
 
   return (
@@ -54,12 +143,16 @@ const DeliveryInfo: React.FC = () => {
               onChange={() => {
                 return;
               }}
+              value={personInfo.firstName || ''}
+              disabled
             />
             <Input
               label={'Фамилия'}
               onChange={() => {
                 return;
               }}
+              value={personInfo.lastName || ''}
+              disabled
             />
           </div>
           <div className={classes['u-margin-bottom-md']}>
@@ -68,46 +161,44 @@ const DeliveryInfo: React.FC = () => {
               onChange={() => {
                 return;
               }}
+              value={personInfo.iin || ''}
+              disabled
             />
           </div>
           <div className={classes['u-margin-bottom-md']}>
             <Input
               label={'Номер Телефона'}
-              onChange={() => {
-                return;
-              }}
+              onChange={handlePhoneNumberChange}
+              value={phoneNumber || ''}
             />
           </div>
           <div>
             <h2 className={classes['info__form__delivery-title']}>Доставка</h2>
             <div className={classes['info__form__fio']}>
-              <Input
-                label={'Область'}
-                onChange={() => {
-                  return;
-                }}
-              />
-              <Input
-                label={'Город'}
-                onChange={() => {
-                  return;
-                }}
-              />
+              <Input label={'Область'} onChange={handleOrderDataChange} name={'region'} />
+              <Input label={'Город'} onChange={handleOrderDataChange} name={'city'} />
+            </div>
+            <div className={classes['info__form__fio']}>
+              <Input label={'Улица'} onChange={handleOrderDataChange} name={'street'} />
+              <Input label={'Номер дома'} onChange={handleOrderDataChange} name={'houseNumber'} />
+            </div>
+            <div className={classes['info__form__fio']}>
+              <Input label={'Подъезд'} onChange={handleOrderDataChange} name={'entranceNumber'} />
+              <Input label={'Этаж'} onChange={handleOrderDataChange} name={'floorNumber'} />
+              <Input label={'Квартира'} onChange={handleOrderDataChange} name={'apartmentNumber'} />
             </div>
             <div className={classes['u-margin-bottom-md']}>
               <Input
-                label={'Улица и дом'}
-                onChange={() => {
-                  return;
-                }}
+                label={'Название ЖК'}
+                onChange={handleOrderDataChange}
+                name={'residentialComplexName'}
               />
             </div>
             <div className={classes['u-margin-bottom-md']}>
               <Input
                 label={'Дополнительная информация'}
-                onChange={() => {
-                  return;
-                }}
+                onChange={handleOrderDataChange}
+                name={'additionalInformation'}
               />
             </div>
             <div className={classes['checkbox']}>

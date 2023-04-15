@@ -4,6 +4,8 @@ import LoginLogo from '../../assets/icons/login.svg';
 
 import classes from './styles.module.scss';
 import { Button, Input } from '@/components';
+import { login } from '@/requests/login';
+import { useNavigate } from 'react-router-dom';
 
 interface IAuthForm {
   iin: string;
@@ -11,6 +13,7 @@ interface IAuthForm {
 }
 
 const Login = () => {
+  const navigate = useNavigate();
   const [authForm, setAuthForm] = useState<IAuthForm>({
     iin: '',
     password: '',
@@ -21,7 +24,20 @@ const Login = () => {
   };
 
   const handleSubmit = () => {
-    return;
+    login(authForm).then((res) => {
+      localStorage.setItem('token', res.token);
+      if (res.role === 2) {
+        navigate('/courier');
+      } else if (res.role === 3) {
+        navigate('/tson');
+      } else if (res.role === 0) {
+        window.location.href = 'http://127.0.0.1:8000/admin/';
+      } else if (res.role === 1) {
+        navigate('/');
+      } else {
+        navigate('/login');
+      }
+    });
   };
 
   return (

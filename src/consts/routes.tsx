@@ -1,13 +1,7 @@
+import { Role } from '@/ts/types';
 import React from 'react';
 import DelivererTabs from '@/pages/DelivererTabs';
 import { DeliveryInfo, Login, Main, Payment } from '@/pages';
-
-export enum Role {
-  CLIENT = 'CLIENT',
-  ADMIN = 'ADMIN',
-  COURIER = 'COURIER',
-  TSON = 'TSON',
-}
 
 type IRoute = {
   name: string;
@@ -46,6 +40,6 @@ export const ROUTES: IRoute[] = [
     name: 'Login',
     path: '/login',
     component: <Login />,
-    roles: [Role.COURIER, Role.TSON, Role.ADMIN],
+    roles: [Role.COURIER, Role.TSON, Role.ADMIN, Role.CLIENT],
   },
 ];

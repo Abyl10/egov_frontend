@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ListResponse } from '@/ts/types';
+import { IOrderData, ListResponse } from '@/ts/types';
 
 export const getDeliveryInfo = (requestId: string, requestIIN: string): Promise<ListResponse> => {
   return axios
@@ -18,5 +18,23 @@ export const getPersonInfo = (requestIIN: string) => {
         Authorization: `Bearer ${localStorage.getItem('gov_token')}`,
       },
     })
+    .then((response) => response.data);
+};
+
+export const getPersonInfoByIIN = (requestIIN: string): Promise<any> => {
+  return axios
+    .get(`http://127.0.0.1:8000/persons/${requestIIN}/`)
+    .then((response) => response.data);
+};
+
+export const getPhoneNumber = (requestIIN: string) => {
+  return axios
+    .get(`http://127.0.0.1:8000/get_phone_number/${requestIIN}/`)
+    .then((response) => response.data);
+};
+
+export const saveOrder = (orderData: IOrderData) => {
+  return axios
+    .post('http://127.0.0.1:8000/save_order', orderData)
     .then((response) => response.data);
 };

@@ -1,3 +1,10 @@
+export enum Role {
+  CLIENT = 'CLIENT',
+  ADMIN = 'ADMIN',
+  COURIER = 'COURIER',
+  TSON = 'TSON',
+}
+
 export interface ListResponse {
   data: IDeliveryInfo;
   status: string;
@@ -28,4 +35,28 @@ export interface IAppStatus {
   appState: string;
   statusInfo: string;
   statusInfoKz: string;
+}
+
+export interface IOrderData {
+  orderNumber: string;
+  serviceName: string;
+  department: string;
+  recipientInfo: {
+    iin: string;
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+    deliveryAddress: {
+      region: string;
+      city: string;
+      street: string;
+      houseNumber: string;
+      apartmentNumber: string;
+      entranceNumber: string;
+      floorNumber: string;
+      buildingNumber: string;
+      residentialComplexName: string;
+      additionalInformation: string;
+    };
+  };
 }

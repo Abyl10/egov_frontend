@@ -32,7 +32,7 @@ export const ROUTES: IRoute[] = [
 
   {
     name: 'DelivererOrders',
-    path: '/orders',
+    path: '/courier-orders',
     component: <DelivererTabs index={0} value={0} />,
     roles: [Role.CLIENT, Role.ADMIN],
   },

@@ -5,9 +5,12 @@ import App from './App';
 
 // styles
 import '@/assets/sass/main.scss';
+import { UserProvider } from './context/userContext';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
-    <App />
+    <UserProvider>
+      <App />
+    </UserProvider>
   </BrowserRouter>,
 );

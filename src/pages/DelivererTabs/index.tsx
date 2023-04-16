@@ -3,6 +3,7 @@ import { Tabs, Box, Tab, Typography } from '@mui/material';
 import DelivererOrders from '../DelivererOrders';
 
 import classes from './styles.module.scss';
+import UnassignedOrders from '../UnassignedOrders';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -53,7 +54,7 @@ const DelivererTabs = (props: TabPanelProps) => {
         </Box>
       </div>
       <TabPanel value={value} index={0}>
-        Item one
+        <UnassignedOrders />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <DelivererOrders />

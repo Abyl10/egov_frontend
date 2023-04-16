@@ -1,13 +1,6 @@
 import axios from 'axios';
 
-import { Role } from '@/ts/types';
-
-interface IUser {
-  first_name: 'string';
-  last_name: 'string';
-  role: number;
-  token: 'string';
-}
+import { IUser, Role } from '@/ts/types';
 
 // role 0 - admin
 // role 1 - user

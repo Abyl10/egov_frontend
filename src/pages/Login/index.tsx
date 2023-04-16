@@ -6,6 +6,7 @@ import classes from './styles.module.scss';
 import { Button, Input } from '@/components';
 import { login } from '@/requests/login';
 import { useNavigate } from 'react-router-dom';
+import { useUserContext } from '@/context/userContext';
 
 interface IAuthForm {
   iin: string;
@@ -14,6 +15,7 @@ interface IAuthForm {
 
 const Login = () => {
   const navigate = useNavigate();
+  const { setUser } = useUserContext();
   const [authForm, setAuthForm] = useState<IAuthForm>({
     iin: '',
     password: '',
@@ -26,8 +28,9 @@ const Login = () => {
   const handleSubmit = () => {
     login(authForm).then((res) => {
       localStorage.setItem('token', res.token);
+      setUser(res);
       if (res.role === 2) {
-        navigate('/courier');
+        navigate('/courier-orders');
       } else if (res.role === 3) {
         navigate('/tson');
       } else if (res.role === 0) {

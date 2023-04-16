@@ -60,3 +60,11 @@ export interface IOrderData {
     };
   };
 }
+
+export interface IUser {
+  first_name: string;
+  last_name: string;
+  role: number;
+  token: string;
+  id: number;
+}

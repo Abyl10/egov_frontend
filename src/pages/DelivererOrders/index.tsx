@@ -4,10 +4,18 @@ import classes from './styles.module.scss';
 import { Button, Input } from '@/components';
 import { getMyDelivers } from '@/requests/courier';
 import { useUserContext } from '@/context/userContext';
+import { checkOtp } from '@/requests/sms';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const DelivererOrders = () => {
   const [myOrder, setMyOrder] = useState<any>([]);
   const { user } = useUserContext();
+  const [otp, setOtp] = useState<string>('');
+
+  const handleOtpChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setOtp(e.target.value);
+  };
 
   useEffect(() => {
     getMyDelivers(user.id).then((res) => {
@@ -17,7 +25,16 @@ const DelivererOrders = () => {
   }, []);
 
   const handleButtonClick = () => {
-    return;
+    checkOtp(myOrder[0].order_number, otp).then((res) => {
+      if (res.message === 'OTP is incorrect') {
+        toast.error('Неверный код');
+      } else {
+        toast.success('Код верный');
+        getMyDelivers(user.id).then((res) => {
+          setMyOrder(res);
+        });
+      }
+    });
   };
 
   const getFullName = () => {
@@ -73,13 +90,7 @@ const DelivererOrders = () => {
                 Чтобы поменять статус, пожалуйста введите код, который вам скажет получатель{' '}
               </p>
               <div className={classes['row']}>
-                <Input
-                  label={''}
-                  placeholder='0000'
-                  onChange={() => {
-                    return;
-                  }}
-                />
+                <Input label={''} placeholder='00000' onChange={handleOtpChange} value={otp} />
                 <Button onClick={handleButtonClick} text={'Проверить'} />
               </div>
             </div>

@@ -17,6 +17,7 @@ const DeliveryInfo: React.FC = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [checked, setChecked] = useState(false);
   const [checked1, setChecked1] = useState(false);
+  const [error, setError] = useState<string>('');
 
   const [orderData, setOrderData] = useState<IOrderData>({
     orderNumber: '',
@@ -69,6 +70,11 @@ const DeliveryInfo: React.FC = () => {
   }, []);
 
   const handleButtonClick = () => {
+    if (validation() === false) {
+      setError('Заполните все поля');
+      return;
+    }
+    setError('');
     setOpenModal(true);
     const deliveryInfo = JSON.parse(localStorage.getItem('deliveryInfo') || '{}');
     console.log(deliveryInfo);
@@ -122,6 +128,25 @@ const DeliveryInfo: React.FC = () => {
         },
       },
     }));
+  };
+
+  const validation = () => {
+    if (
+      orderData.recipientInfo.deliveryAddress.region &&
+      orderData.recipientInfo.deliveryAddress.city &&
+      orderData.recipientInfo.deliveryAddress.street &&
+      orderData.recipientInfo.deliveryAddress.houseNumber &&
+      orderData.recipientInfo.deliveryAddress.apartmentNumber &&
+      orderData.recipientInfo.deliveryAddress.entranceNumber &&
+      orderData.recipientInfo.deliveryAddress.floorNumber &&
+      orderData.recipientInfo.deliveryAddress.residentialComplexName &&
+      orderData.recipientInfo.deliveryAddress.additionalInformation &&
+      checked &&
+      checked1
+    ) {
+      return true;
+    }
+    return false;
   };
 
   return (
@@ -222,6 +247,12 @@ const DeliveryInfo: React.FC = () => {
                 данных.
               </label>
             </div>
+            {error && (
+              <p className={classes['info__form__error']}>
+                Пожалуйста, заполните все поля и примите условия публичного договора-оферты и
+                политики конфиденциальности и персональных данных.
+              </p>
+            )}
             <div className={classes['u-margin-bottom-md']}>
               <Button onClick={handleButtonClick} text={'Заказать доставку'} />
             </div>

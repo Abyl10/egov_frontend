@@ -1,7 +1,7 @@
 import { Role } from '@/ts/types';
 import React from 'react';
 import DelivererTabs from '@/pages/DelivererTabs';
-import { DeliveryInfo, Login, Main, Payment } from '@/pages';
+import { DeliveryInfo, Login, Main, Payment, Tson } from '@/pages';
 
 type IRoute = {
   name: string;
@@ -41,5 +41,11 @@ export const ROUTES: IRoute[] = [
     path: '/login',
     component: <Login />,
     roles: [Role.COURIER, Role.TSON, Role.ADMIN, Role.CLIENT],
+  },
+  {
+    name: 'Tson',
+    path: '/tson',
+    component: <Tson />,
+    roles: [Role.TSON, Role.ADMIN],
   },
 ];

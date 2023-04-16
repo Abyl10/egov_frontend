@@ -13,3 +13,7 @@ export const assignCourier = (order_number: string, courier_id: number) => {
     .post(`http://127.0.0.1:8000/assign_courier`, { order_number, courier_id })
     .then((res) => res.data);
 };
+
+export const getCourierCompanies = () => {
+  return axios.get(`http://127.0.0.1:8000/courier_companies`).then((res) => res.data);
+};

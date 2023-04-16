@@ -38,3 +38,7 @@ export const saveOrder = (orderData: IOrderData) => {
     .post('http://127.0.0.1:8000/save_order', orderData)
     .then((response) => response.data);
 };
+
+export const getAllOrders = () => {
+  return axios.get(`http://127.0.0.1:8000/orders`).then((res) => res.data);
+};

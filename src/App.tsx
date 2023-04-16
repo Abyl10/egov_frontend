@@ -1,8 +1,8 @@
 import { Route, Routes } from 'react-router-dom';
 import { ROUTES } from './consts/routes';
-import { DeliveryInfo } from './pages';
 import classes from './styles.module.scss';
-import Payment from './pages/Payment';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const user = {
@@ -18,6 +18,7 @@ function App() {
             ),
         )}
       </Routes>
+      <ToastContainer />
     </div>
   );
 }

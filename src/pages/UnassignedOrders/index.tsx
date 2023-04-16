@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import classes from './styles.module.scss';
-import { assignCourier, getUnassignedOrders } from '@/requests/courier';
+import { assignCourier, getCourierCompanies, getUnassignedOrders } from '@/requests/courier';
 import {
   TableContainer,
   Paper,
@@ -14,13 +14,34 @@ import {
 } from '@mui/material';
 import { useUserContext } from '@/context/userContext';
 import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { sendSMS } from '@/requests/sms';
+import { getToken } from '@/requests/generateToken';
+
+interface ICourierCompany {
+  courier_id: number;
+  company_name: string;
+}
 
 const UnassignedOrders = () => {
   const [unassignedOrders, setUnassignedOrders] = useState<any>([]);
   const { user } = useUserContext();
+  const [courierCompany, setCourierCompany] = useState<ICourierCompany>({
+    courier_id: 0,
+    company_name: '',
+  });
+
   useEffect(() => {
+    getToken();
     getUnassignedOrders().then((res) => {
       setUnassignedOrders(res);
+    });
+    getCourierCompanies().then((res) => {
+      res.forEach((company: ICourierCompany) => {
+        if (company.courier_id === user.id) {
+          setCourierCompany(company);
+        }
+      });
     });
   }, []);
 
@@ -30,8 +51,18 @@ const UnassignedOrders = () => {
     service_name: string,
     tson_address: string,
     delivery_address: string,
+    phoneNumber: string,
+    otp: string,
   ) {
-    return { order_number, full_name, service_name, tson_address, delivery_address };
+    return {
+      order_number,
+      full_name,
+      service_name,
+      tson_address,
+      delivery_address,
+      phoneNumber,
+      otp,
+    };
   }
 
   const getFullName = (index: number) => {
@@ -49,15 +80,32 @@ const UnassignedOrders = () => {
       order?.service_name,
       'г. Астана, Керей Жанибек 4',
       getFullAddress(ind),
+      order.recipient_phone_number,
+      order.otp,
     );
   });
 
-  const handleAddReqeustClick = (orderNumber: string) => {
-    assignCourier(orderNumber, user?.id).then((res) => {
-      toast.success('Order assigned successfully!', {
+  const handleAddReqeustClick = (orderNumber: string, phoneNumber: string, otp: string) => {
+    assignCourier(orderNumber, user?.id).then((response) => {
+      console.log(response);
+      toast.success('Курьер успешно назначен!', {
         position: toast.POSITION.TOP_CENTER,
       });
+      sendSMS(
+        phoneNumber,
+        `Ваш заказ ${orderNumber} назначен курьеру ${user.first_name} из компании ${courierCompany.company_name}. Ваш ОТП код ${response.otp} Спасибо за использование нашего сервиса! `,
+      ).then((res) => {
+        console.log(res);
+        toast.success('СМС успешно отправлено!', {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      });
     });
+
+    const newUnassignedOrders = unassignedOrders.filter(
+      (order: any) => order.order_number !== orderNumber,
+    );
+    setUnassignedOrders(newUnassignedOrders);
   };
 
   return (
@@ -75,7 +123,7 @@ const UnassignedOrders = () => {
           </TableHead>
           <TableBody>
             {rows.map((row: any) => (
-              <TableRow key={row.order_number}>
+              <TableRow key={`${row.order_number}-${Math.floor(Math.random() * 10000) + 1}`}>
                 <TableCell component='th' scope='row'>
                   {row.order_number}
                 </TableCell>
@@ -87,7 +135,9 @@ const UnassignedOrders = () => {
                   <Button
                     variant='contained'
                     color='success'
-                    onClick={() => handleAddReqeustClick(row.order_number)}
+                    onClick={() =>
+                      handleAddReqeustClick(row.order_number, row.phoneNumber, row.otp)
+                    }
                   >
                     Добавить
                   </Button>

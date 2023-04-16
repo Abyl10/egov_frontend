@@ -5,5 +5,15 @@ import Login from './Login';
 import UnassignedOrders from './UnassignedOrders';
 import DelivererOrders from './DelivererOrders';
 import DelivererTabs from './DelivererTabs';
+import Tson from './Tson';
 
-export { Main, DeliveryInfo, Payment, Login, UnassignedOrders, DelivererOrders, DelivererTabs };
+export {
+  Main,
+  DeliveryInfo,
+  Payment,
+  Login,
+  UnassignedOrders,
+  DelivererOrders,
+  DelivererTabs,
+  Tson,
+};

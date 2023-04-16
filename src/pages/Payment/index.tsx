@@ -1,16 +1,18 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React from 'react';
 import { Button, CardPaymentInput } from '@/components';
 import Apple from '@/assets/icons/icons8-apple-pay.svg';
-// import Kaspi from '@/assets/icons/qr.png';
 import Kaspilg from '@/assets/icons/kaspi-bank.svg';
 import Paypal from '@/assets/icons/icons8-paypal.svg';
 
 import classes from './styles.module.scss';
+import { useNavigate } from 'react-router-dom';
 interface IPayment {
   CardNumber: string;
   CardCVC: string;
 }
 const Payment: React.FC = () => {
+  const navigate = useNavigate();
   const [payment, setPayment] = React.useState<IPayment>({
     CardNumber: '',
     CardCVC: '',
@@ -21,7 +23,7 @@ const Payment: React.FC = () => {
   };
 
   const handleButtonClick = () => {
-    return;
+    navigate('/');
   };
 
   return (
@@ -58,16 +60,25 @@ const Payment: React.FC = () => {
             placeholder='MM/YY'
             onChange={handleChange}
           />
-          <CardPaymentInput label='CVV' id='cvv' type='text' mask='999' onChange={handleChange} placeholder='***' />
+          <CardPaymentInput
+            label='CVV'
+            id='cvv'
+            type='text'
+            mask='999'
+            onChange={handleChange}
+            placeholder='***'
+          />
           <div className={classes['separator']} />
-          <div className={classes['button-row']}>
-            <button className={classes['black-button']}>
-              <img src={Apple} className={classes['icon']} />
-            </button>
-            <button className={classes['blue-button']}>
-              <img src={Paypal} className={classes['icon']} />
-            </button>
-            <button className={classes['red-button']}>Kaspi</button>
+          <div className={classes['buttons-wrapper']}>
+            <div className={classes['button-row']}>
+              <button className={classes['black-button']}>
+                <img src={Apple} className={classes['icon']} />
+              </button>
+              <button className={classes['blue-button']}>
+                <img src={Paypal} className={classes['icon']} />
+              </button>
+              <button className={classes['red-button']}>Kaspi</button>
+            </div>
           </div>
           <Button text={'Оплатить'} onClick={handleButtonClick} />
         </div>
